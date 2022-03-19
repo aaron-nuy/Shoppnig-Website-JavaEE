@@ -1,0 +1,325 @@
+@charset "ISO-8859-1";
+:root {
+	--dark-color: #2b0055;
+	--main-color: #400080;
+	--sec-color: #6400c8;
+	--main-text-color: rgb(173, 154, 252);
+	--sec-text-color: #ccccff;
+}
+
+*{
+	margin: 0%;
+	padding: 0%;
+	text-decoration: none;
+	text-align: center;
+	transition: 0.3s ease-out;
+}
+
+
+#buyButton{
+	height: 6vh;
+	width: 8vw;
+	border-radius: 0px;
+	border-style: solid;
+	background-color: var(--sec-color);
+	color: var(--sec-text-color);
+	font-size: 2em;
+	font-weight: 700;
+}
+
+#buyButton:hover{
+	cursor: pointer;
+	filter: brightness(1.15);
+	transform: scale(1.15);
+	
+}
+
+
+#confirm{
+	align-items: center;
+	display:none;
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+	align-items: center;
+	justify-content: center;
+}
+
+#prompt{
+	display:flex;
+	position: absolute;
+	width: 20vw;
+	height: 10vh;
+	justify-content: center;
+	background-color: var(--main-color);
+	flex-direction: column;
+	border-color: var(--dark-color);
+	border-style: solid;
+	border-radius:0.1vh;
+	padding: 1%;
+}
+
+
+#prompt div:first-child{
+	font-weight: 100;
+	align-self: center;
+}
+
+#prompt div:nth-child(2){
+	align-self: end;
+	margin-top: 1vh;
+	margin-right: 1vw;
+}
+
+#prompt div:nth-child(2) button{
+	height: 4vh;
+	width: 5vw;
+	border-radius: 3px;
+	font-weight: 200;
+	background-color: var(--sec-color);
+	color: var(--sec-text-color);
+	border-style: solid;
+}
+
+
+#prompt div:nth-child(2) button:hover{
+	filter: brightness(1.13);
+	cursor: pointer;
+}
+
+#dimmer{
+	background-color: black;
+	opacity: 0.5;
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+}
+
+
+input{
+	border-style: solid;
+	border-radius:0.1vh;
+	text-align: center;
+	font-size: 1em;
+	font-family: 'Freight Sans Bold', helvetica, arial, sans-serif ;
+	font-weight: bold;
+	background: #ddd;
+	color: var(--main-color);
+	display: inline-block;
+}
+
+
+input[type="button"]{
+	cursor: pointer;
+	height:100%;
+	width: 100%;
+}
+
+
+
+.button{
+	border-radius: 0.25vh;
+	border-style: none;
+	cursor: pointer;
+}
+
+.button:hover{
+	transform: scale(1.1);
+	filter: brightness(1.23);
+}
+
+tbody tr:nth-child(odd) {
+  background-color: var(--main-color);
+  background: var(--main-color);
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--sec-color);
+  background: var(--sec-color);
+}
+
+
+table{
+	width: 50%;
+	border-spacing: 1px;
+	min-height: 10vh; 
+}
+
+body{
+	text-align: center;
+    height: 100vh;
+    width: 100vw;
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+	font-size: 2vh;
+	color: var(--sec-text-color);
+    background: linear-gradient(120deg, var(--main-color) , var(--sec-color));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+td{
+	padding: 1vh;
+}
+
+td:nth-child(1),td:nth-child(3),td:nth-child(4),td:nth-child(5) {
+	width: 15%;
+}
+td:nth-child(2) {
+	width: 40%;
+}
+
+
+label {
+	color: var(--sec-text-color);
+	font-family: monospace;
+    font-size: 2vh;
+	font-weight: 900;
+	padding-bottom: 5px;
+}
+
+
+#cardInfo{
+	position: absolute;
+	background-color: black;
+	opacity: 0.5;
+	height: 100vh;
+	width: 100vw;
+	justify-content: center;
+	display: none;
+}
+
+#formInfo{
+	position: absolute;
+	display: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-line-pack: center;
+	align-content: center;
+    -webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+	justify-content: center;
+    min-height: 100vh;
+    -ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+
+#sub{
+	width: 5vw;
+	margin-top: -10%;
+	height: 2.3vh;
+	border-style: solid;
+	border-radius: 3px;
+	background-color: var(--main-color);
+	color: var(--main-text-color);
+	font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+	text-align: center;
+	padding-bottom: 5vh;
+}
+
+#sub:hover{
+	cursor: pointer;
+	filter: brightness(1.15);
+	transform: scale(1.05);
+}
+
+
+
+.form-container .field-container:first-of-type {
+    grid-area: name;
+}
+
+.form-container .field-container:nth-of-type(2) {
+    grid-area: number;
+}
+
+.form-container .field-container:nth-of-type(3) {
+    grid-area: expiration;
+}
+
+.form-container .field-container:nth-of-type(4) {
+    grid-area: security;
+}
+
+.field-container input {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.field-container {
+    position: relative;
+}
+
+.form-container {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: auto auto;
+    grid-template-rows: 90px 90px 90px;
+    grid-template-areas: "name name""number number""expiration security";
+    max-width: 400px;
+    padding: 20px;
+    color: #707070;
+}
+
+
+input {
+    margin-top: 3px;
+    padding: 15px;
+    font-size: 19px;
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid #dcdcdc;
+    color: black;
+    font-weight: 500;
+    text-align: left;
+    
+    font-family: 'Raleway';
+}
+
+.ccicon {
+    height: 38px;
+    position: absolute;
+    right: 6px;
+    top: calc(50% - 17px);
+    width: 60px;
+}
+
+/* CREDIT CARD IMAGE STYLING */
+.preload * {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -ms-transition: none !important;
+    -o-transition: none !important;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    max-height: 251px;
+    height: 54vw;
+    padding: 20px;
+}
+
+#ccsingle {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+}
+
+#ccsingle svg {
+    width: 100px;
+    max-height: 60px;
+}
+
