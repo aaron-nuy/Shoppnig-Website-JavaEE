@@ -42,6 +42,9 @@
 			ID
 		</td>
 		<td>
+			Reputation
+		</td>
+		<td>
 			Delete User
 		</td>
 	</tr>
@@ -53,6 +56,7 @@
 			<td class="editable"><c:out value="${supplier.geteMail()}"/></td>
 			<td class="editable"><c:out value="${supplier.getRegNumber()}"/></td>
 			<td class="editable" id="supplier_id"><c:out value="${supplier.getId()}"/></td>
+			<td class="editable"><c:out value="${supplier.getReputation()}"/></td>
 			<td class="button" id="bDelete" onclick="deleteUser(this)">Delete</td>
 		</tr>
 	</c:forEach>
@@ -60,10 +64,14 @@
 	</tbody>
 </table>
 
+		<input type="hidden" name="email" value="${email}"/>
+		<input type="hidden" name="password" value="${password}"/>
+		
 	<script >
 	
 		var website = window.location.origin;
-		
+		let b_email = document.getElementsByName("email")[0].value;
+		let b_password = document.getElementsByName("password")[0].value;
 		
 		
 		function sendPost(data,servlet,message){
@@ -81,8 +89,10 @@
 			let user_id = element.parentNode.querySelector("#supplier_id").innerHTML;
 			console.log(user_id);
 			let data = {
-				userID : user_id
-			}
+				userID : user_id,
+				email : b_email,
+				password : b_password
+			};
 			
 			sendPost(data,"DeleteUser","Deleted");
 

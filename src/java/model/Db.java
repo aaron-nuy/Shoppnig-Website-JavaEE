@@ -1,4 +1,4 @@
-package model.dbAbstraction;
+package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,10 +38,10 @@ public final class Db {
 	static public void insertUser(User user) throws SQLException {
 		Statement s = connect().createStatement();
 		
-		String query = "INSERT INTO users " + "(first_name, last_name, email, reg_number,birthdate,gender,password,user_type) " +
+		String query = "INSERT INTO users " + "(first_name, last_name, email, reg_number,birthdate,gender,password,user_type,reputation) " +
 				"VALUES ('" + user.getFirstName() + "', '" + user.getLastName() + "', '"+ 
 				user.geteMail() + "',"+ String.valueOf(user.getRegNumber()) + ", '"+ user.getBirthDate() +"','" +
-				user.getGender() + "\'," + "\'"+ user.getPassword() + "\',\'"+ user.getType() +"\');";
+				user.getGender() + "\'," + "\'"+ user.getPassword() + "\',\'"+ user.getType() +"\'" + String.valueOf(user.getReputation()) + ");";
 		
 		s.executeUpdate(query);
 		s.close();
@@ -89,6 +89,31 @@ public final class Db {
 		s.close();
 	}
 	
+	static public void updateUserReputation(int id, float rating) throws SQLException {
+		Statement s = connect().createStatement();
+		
+		String query = "UPDATE users SET reputation = " + String.valueOf(rating) + " WHERE id = \'" + id + "\'";
+		
+		s.executeUpdate(query);
+		s.close();
+	}
+	
+	public static float getUserReputation(int id) throws SQLException {
+		Statement s = connect().createStatement();
+		
+		String query = "SELECT reputation FROM users WHERE id=" + String.valueOf(id);
+		
+		ResultSet rs = s.executeQuery(query);
+
+		float rep = 0;
+		if(rs.next()) {
+		    rep = rs.getFloat("reputation");
+		}
+		
+		s.close();
+		return rep;
+	}
+	
 	static public void updateProduct(Product product) throws SQLException {
 		Statement s = connect().createStatement();
 		
@@ -98,6 +123,8 @@ public final class Db {
 		s.executeUpdate(query);
 		s.close();
 	}
+	
+	
 	
 	static public void deleteProduct(Product product) throws SQLException {
 		Statement s = connect().createStatement();
@@ -219,6 +246,7 @@ public final class Db {
 		if(rs.next()) {
 	        int u_id = rs.getInt("id");
 	        int u_regnum = rs.getInt("reg_number");
+	        float reputation = rs.getFloat("reputation");
 	        String u_firstName = rs.getString("first_name");
 	        String u_lastName = rs.getString("last_name");
 	        String u_email = rs.getString("email");
@@ -228,7 +256,7 @@ public final class Db {
 	        String u_birthdate = rs.getDate("birthdate").toString();
 	        
 			s.close();
-	        return new User(u_firstName,u_lastName,u_gender,u_email,u_password,u_birthdate,u_type,u_id,u_regnum);
+	        return new User(u_firstName,u_lastName,u_gender,u_email,u_password,u_birthdate,u_type,u_id,u_regnum,reputation);
 
 		}
 		
@@ -248,6 +276,7 @@ public final class Db {
 		if(rs.next()) {
 	        int u_id = rs.getInt("id");
 	        int u_regnum = rs.getInt("reg_number");
+	        float reputation = rs.getFloat("reputation");
 	        String u_firstName = rs.getString("first_name");
 	        String u_lastName = rs.getString("last_name");
 	        String u_email = rs.getString("email");
@@ -257,7 +286,7 @@ public final class Db {
 	        String u_birthdate = rs.getDate("birthdate").toString();
 	        
 			s.close();
-	        return new User(u_firstName,u_lastName,u_gender,u_email,u_password,u_birthdate,u_type,u_id,u_regnum);
+	        return new User(u_firstName,u_lastName,u_gender,u_email,u_password,u_birthdate,u_type,u_id,u_regnum,reputation);
 
 		}
 		
@@ -277,6 +306,7 @@ public final class Db {
 		if(rs.next()) {
 	        int u_id = rs.getInt("id");
 	        int u_regnum = rs.getInt("reg_number");
+	        float reputation = rs.getFloat("reputation");
 	        String u_firstName = rs.getString("first_name");
 	        String u_lastName = rs.getString("last_name");
 	        String u_email = rs.getString("email");
@@ -286,7 +316,7 @@ public final class Db {
 	        String u_birthdate = rs.getDate("birthdate").toString();
 	        
 			s.close();
-	        return new User(u_firstName,u_lastName,u_gender,u_email,u_password,u_birthdate,u_type,u_id,u_regnum);
+	        return new User(u_firstName,u_lastName,u_gender,u_email,u_password,u_birthdate,u_type,u_id,u_regnum,reputation);
 
 		}
 		
@@ -339,6 +369,7 @@ public final class Db {
 		while(rs.next()) {
 	        int u_id = rs.getInt("id");
 	        int u_regnum = rs.getInt("reg_number");
+	        float reputation = rs.getFloat("reputation");
 	        String u_firstName = rs.getString("first_name");
 	        String u_lastName = rs.getString("last_name");
 	        String u_email = rs.getString("email");
@@ -348,7 +379,7 @@ public final class Db {
 	        String u_birthdate = rs.getDate("birthdate").toString();
 	        
 			s.close();
-	        userList.add(new User(u_firstName,u_lastName,u_gender,u_email,u_password,u_birthdate,u_type,u_id,u_regnum));
+	        userList.add(new User(u_firstName,u_lastName,u_gender,u_email,u_password,u_birthdate,u_type,u_id,u_regnum,reputation));
 		}
 		
 		s.close();
@@ -369,6 +400,7 @@ public final class Db {
 		while(rs.next()) {
 	        int u_id = rs.getInt("id");
 	        int u_regnum = rs.getInt("reg_number");
+	        float reputation = rs.getFloat("reputation");
 	        String u_firstName = rs.getString("first_name");
 	        String u_lastName = rs.getString("last_name");
 	        String u_email = rs.getString("email");
@@ -377,7 +409,7 @@ public final class Db {
 	        String u_password = rs.getString("password");
 	        String u_birthdate = rs.getDate("birthdate").toString();
 	        
-	        userList.add(new User(u_firstName,u_lastName,u_gender,u_email,u_password,u_birthdate,u_type,u_id,u_regnum));
+	        userList.add(new User(u_firstName,u_lastName,u_gender,u_email,u_password,u_birthdate,u_type,u_id,u_regnum,reputation));
 		}
 		
 		s.close();

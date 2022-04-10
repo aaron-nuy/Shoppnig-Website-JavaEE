@@ -93,6 +93,9 @@
 	</tbody>
 </table>
 
+		<input type="hidden" name="email" value="${email}"/>
+		<input type="hidden" name="password" value="${password}"/>
+
 	<script >
 	
 		var website = window.location.origin;
@@ -101,6 +104,9 @@
 		var default_bg_color;
 		var correct_pattern = true;
 		var default_text_color = getComputedStyle(document.querySelector(":root")).getPropertyValue("--sec-text-color");
+		let b_email = document.getElementsByName("email")[0].value;
+		let b_password = document.getElementsByName("password")[0].value;
+		console.log(b_email);
 		
 		function sendPost(data,servlet,message){
 			$.ajax({
@@ -124,7 +130,11 @@
 			let row = elementID.parentNode;
 			
 			
-			let data = { productID : product_id };
+			let data = { 
+					productID : product_id,
+					email : b_email,
+					password : b_password		
+			};
 			
 			$("#confirm").css("display","flex");
 			
@@ -193,7 +203,9 @@
 				        	productName: productN,
 				        	productDescription: productD,
 				        	productPrice: productP,
-				        	productID: product_id
+				        	productID: product_id,
+							email : b_email,
+							password : b_password
 				        };
 				        
 				        sendPost(data,"UpdateProduct","Updated");
@@ -254,7 +266,8 @@
 					productName : productN,
 					productDescription : productD,
 					productPrice : productP,
-					supplierID: userID
+					email : b_email,
+					password : b_password	
 				};
 				
 				sendPost(data,"AddProduct","Added");

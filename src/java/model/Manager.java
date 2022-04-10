@@ -1,4 +1,4 @@
-package model.dbManager;
+package model;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -10,9 +10,6 @@ import javax.mail.MessagingException;
 
 import model.dataTypes.Product;
 import model.dataTypes.User;
-import model.dbAbstraction.Db;
-import model.mail.EmailMessage;
-import model.pdfworks.Invoice;
 
 public class Manager {
 
@@ -70,6 +67,19 @@ public class Manager {
 		
 	}
 	
+	public static void updateUserReputation(int id,float reputation) throws RuntimeException {
+		
+		try {
+			float oldRep = Db.getUserReputation(id);
+			
+			Db.updateUserReputation(id,oldRep + reputation);
+		}
+		catch(SQLException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		
+	}
+	
 	
 	public static void deleteProduct(int productID) throws RuntimeException {
 		try {
@@ -99,10 +109,10 @@ public class Manager {
 			
 			// If user has no registration number then it's not a supplier
 			if(regNum.equals("none")) {
-				user = new User(firstName,lastName,gender,eMail,password,birthdate,"user",0,0);		
+				user = new User(firstName,lastName,gender,eMail,password,birthdate,"user",0,0,0);		
 			}
 			else {
-				user = new User(firstName,lastName,gender,eMail,password,birthdate,"supplier",0,Integer.parseInt(regNum));
+				user = new User(firstName,lastName,gender,eMail,password,birthdate,"supplier",0,Integer.parseInt(regNum),0);
 			}
 			
 			
@@ -119,6 +129,18 @@ public class Manager {
 	}
 	
 	public static User login(String email, String password) throws RuntimeException{
+		User user = null;
+		try {
+			user = Db.selectUser(email,password);
+		}
+		catch(SQLException e) {
+			throw new RuntimeException("An SQL Error occured");
+		}
+		
+		return user;		
+	}
+	
+	public static User getUser(String email, String password) throws RuntimeException{
 		User user = null;
 		try {
 			user = Db.selectUser(email,password);
@@ -174,7 +196,7 @@ public class Manager {
 		
 		User user = Manager.getUser(userID);
 		
-		byte[] invoice = Invoice.render(productList,user);
+		byte[] invoice = PDFInvoice.render(productList,user);
 		
 		try {
 			EmailMessage invoiceEmail = new EmailMessage(user.geteMail(),"Purchase from SITE_PFC Successful","Thank you for shopping with us."

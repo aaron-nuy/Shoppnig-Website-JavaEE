@@ -9,9 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import model.Manager;
 import model.dataTypes.User;
-import model.dbManager.Manager;
 
 
 @WebServlet("/Login")
@@ -33,15 +32,15 @@ public class LoginUser extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
-			
 		try {
 			User user = Manager.login(email,password);
+			request.setAttribute("userID", String.valueOf(user.getId()));
+			request.setAttribute("email", email);
+			request.setAttribute("password", password);
 			if(user.getType().equals("user")) {
-				request.setAttribute("userID", String.valueOf(user.getId()));
 				request.getRequestDispatcher("UserHomeServlet").forward(request, response);
 			}
 			else if(user.getType().equals("supplier")) {
-				request.setAttribute("userID", String.valueOf(user.getId()));
 				request.getRequestDispatcher("SupplierHomeServlet").forward(request, response);
 
 			}

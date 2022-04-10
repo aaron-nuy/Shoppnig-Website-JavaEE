@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.dbManager.Manager;
+import model.Manager;
+import model.dataTypes.Product;
+import model.dataTypes.User;
 
 
 @WebServlet("/UpdateProduct")
@@ -27,13 +29,20 @@ public class UpdateProduct extends HttpServlet {
 		String productDescription = request.getParameter("productDescription");
 		String productPrice = request.getParameter("productPrice");
 		String productID = request.getParameter("productID");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		User user = Manager.getUser(email, password);
+		Product product = Manager.getProduct(Integer.parseInt(productID));
 
 		try {
-			Manager.updateProduct(productName,productDescription,productPrice,productID);
+			if(product.getSupplier_id() == user.getId())
+				Manager.updateProduct(productName,productDescription,productPrice,productID);
+			else
+				throw new RuntimeException("Trying to hack me, eh?");	
 		}
 		catch(RuntimeException e) {
 			response.getWriter().write(e.getMessage());
-			System.out.println(e.getMessage());		}
+		}
 	}
 
 }

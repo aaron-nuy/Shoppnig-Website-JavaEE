@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Manager;
 
-
-@WebServlet("/Buy")
-public class Buy extends HttpServlet {
+@WebServlet("/RateProduct")
+public class RateProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public Buy() {
+
+    public RateProduct() {
         super();
     }
 
@@ -23,17 +23,23 @@ public class Buy extends HttpServlet {
 		request.getRequestDispatcher("WEB-INF/view/index.jsp").forward(request, response);
 	}
 
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String productList = request.getParameter("products");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		int userID = Manager.getUser(email,password).getId();
+		String rating = request.getParameter("rating");
+		String product = request.getParameter("productID");
 		
-		Manager.processPurchase(productList,userID);
+		int productID = Integer.parseInt(product);
 		
-		request.getRequestDispatcher("WEB-INF/view/Success.jsp").forward(request, response);
+		try {
+			Manager.login(email, password);
+			float rate = Float.parseFloat(rating) - 2.5f;
+			Manager.updateUserReputation(Manager.getProduct(productID).getSupplier_id(), rate);
+		}
+		catch(Exception e) {
+			response.getWriter().write("Trying to hack me, eh?");
+		}
+		
 	}
 
 }

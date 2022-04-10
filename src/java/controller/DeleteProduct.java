@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.dbManager.Manager;
+import model.Manager;
+import model.dataTypes.Product;
+import model.dataTypes.User;
 
 @WebServlet("/DeleteProduct")
 public class DeleteProduct extends HttpServlet {
@@ -25,7 +27,15 @@ public class DeleteProduct extends HttpServlet {
 
 		try {
 			int productID = Integer.parseInt(request.getParameter("productID"));
-			Manager.deleteProduct(productID);
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			User user = Manager.getUser(email, password);
+			Product product = Manager.getProduct(productID);
+			
+			if(product.getSupplier_id() == user.getId())
+				Manager.deleteProduct(productID);
+			else
+				throw new RuntimeException("Trying to hack me, huh?");
 		}
 		catch(RuntimeException e) {
 			response.getWriter().write(e.getMessage());

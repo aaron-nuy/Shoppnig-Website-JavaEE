@@ -7,6 +7,7 @@ public class User implements Serializable {
 
 	private int id;
 	private int regNumber;
+	private float reputation;
 	private String firstName;
 	private String lastName;
 	private String eMail;
@@ -15,7 +16,7 @@ public class User implements Serializable {
 	private String gender;
 	private String type;
 	
-	public User(String firstname, String lastname,String m_gender, String email, String m_password,String u_birthdate, String t_type,int t_id,int u_regnum ) {
+	public User(String firstname, String lastname,String m_gender, String email, String m_password,String u_birthdate, String t_type,int t_id,int u_regnum, float u_reputation ) {
 		firstName = firstname;
 		lastName = lastname;
 		eMail = email;
@@ -25,6 +26,7 @@ public class User implements Serializable {
 		gender = m_gender;
 		id = t_id;
 		type = t_type;
+		reputation = u_reputation;
 		
 	}
 	
@@ -95,6 +97,14 @@ public class User implements Serializable {
 
 	public String getType() {
 		return type;
+	}
+
+	public float getReputation() {
+		return reputation;
+	}
+
+	public void setReputation(float reputation) {
+		this.reputation = reputation;
 	}
 	
 	

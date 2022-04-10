@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.dbManager.Manager;
+import model.Manager;
 
 
 @WebServlet("/AddProduct")
@@ -28,7 +28,9 @@ public class AddProduct extends HttpServlet {
 		String productName = request.getParameter("productName");
 		String productDescription = request.getParameter("productDescription");
 		String productPrice = request.getParameter("productPrice");
-		String supplierID = request.getParameter("supplierID");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		String supplierID = String.valueOf(Manager.getUser(email,password).getId());
 		
 		
 		try {

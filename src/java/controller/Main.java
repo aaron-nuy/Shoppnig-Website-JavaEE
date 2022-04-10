@@ -18,12 +18,12 @@ public class Main extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.getWriter().write("Page not found");
 		
-		request.getRequestDispatcher("WEB-INF/view/index.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request,response);
+		response.getWriter().write("Page not found");
 	}
 
 }

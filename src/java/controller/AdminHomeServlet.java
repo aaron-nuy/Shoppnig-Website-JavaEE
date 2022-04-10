@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Manager;
 import model.dataTypes.User;
-import model.dbManager.Manager;
 
 @WebServlet("/AdminHomeServlet")
 public class AdminHomeServlet extends HttpServlet {
@@ -28,6 +28,10 @@ public class AdminHomeServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			ArrayList<User> userList = Manager.getAllSuppliers();
+			String email = (String)request.getAttribute("email");
+			String password = (String)request.getAttribute("password");
+			request.setAttribute("email", email);
+			request.setAttribute("password", password);
 			
 			request.setAttribute("userList", userList);
 			request.getRequestDispatcher("WEB-INF/view/adminhome.jsp").forward(request,response);

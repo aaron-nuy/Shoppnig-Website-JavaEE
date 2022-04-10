@@ -44,10 +44,10 @@
             <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric" placeholder="XXX" required>
         </div>
  		</div>
-		<input id="userID" type="hidden" value="${userID}" name="userID"/>
 		<input id="products" type="hidden" value="" name="products"/>
 		<input id="sub" type="submit" value="Buy"/>
-	
+		<input type="hidden" name="email" value="${email}" id="em"/>
+		<input type="hidden" name="password" value="${password}" id="ps"/>
 	</form>
 
 
@@ -69,6 +69,12 @@
 		<td>
 			Shop
 		</td>
+		<td>
+			Added
+		</td>
+		<td>
+			Rating
+		</td>
 	</tr>
 	
 	<c:forEach var="product" items="${productList}">
@@ -78,6 +84,8 @@
 			<td class="editable"><c:out value="${product.getPrice()}"/></td>
 			<td class="button" id="addToCart" onclick="addToCart(this)">Add to cart</td>
 			<td class="added">&#10060</td>
+			<td class="r" style="width:100%"><input type="tel" name="rating" class="rate" style="width:100%"/></td>
+			<td class="sendRating"><input type="Button" value="Submit Rating" class="submitRating" onclick="rate(this)"/></td>
 			<input type="hidden" value="${product.getId()}" class="productID"/>
 		</tr>
 	</c:forEach>
@@ -90,7 +98,52 @@
 
 	<script >
 
+	let _email = document.getElementById("em").value; 
+	let _password = document.getElementById("ps").value; 
+	let website = window.location.origin;
+	
+	
+	function sendPost(data,servlet,message){
+		$.ajax({
+			  type: "POST",
+			  url: website + "/Site/" + servlet,
+			  data: data,
+			  success: function(d){
+			  }
+			});
+	}
+ 	
+	
+	let inputs = document.getElementsByClassName("rate");
+	for (let input of inputs) {
+		setInputFilter(input, function(value) {
+			  return /^-?[1-5]?$/.test(value); }, "Rating must be between 1 and 5");
+	}
+	
+	function rate(element){
+		
 
+		let prod = element.parentNode.parentNode;
+		let productID = prod.querySelector(".productID").value;
+		let rateValue = prod.querySelector(".r").querySelector(".rate").value;
+
+		if(rateValue != ""){
+	        let data = {
+					email : _email,
+					password : _password,
+					productID : productID,
+					rating : rateValue
+		        };
+		        
+			 sendPost(data,"RateProduct","Updated");
+		 	prod.querySelector(".r").querySelector(".rate").readOnly = true
+		 	element.disabled = true
+		 	$(element).css("cursor","default")
+		}
+
+	}
+	
+	
 	
 	let products = [];
 	let checked =  '&#9989';
@@ -98,8 +151,6 @@
 	$("#buyButton").attr("disabled",true);
 	
 	function addToCart(element){
-		
-
 		
 		let product = element.parentNode;
 		let added = product.querySelector(".added");
@@ -140,10 +191,40 @@
 		
 		$('#products').val(productsString);
 		
-		console.log($('#products').val());
 		
 	});
 		
+	
+	
+	
+	function setInputFilter(textbox, inputFilter, errMsg) {
+		  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop", "focusout"].forEach(function(event) {
+		    textbox.addEventListener(event, function(e) {
+		      if (inputFilter(this.value)) {
+		        // Accepted value
+		        if (["keydown","mousedown","focusout"].indexOf(e.type) >= 0){
+		          this.classList.remove("input-error");
+		          this.setCustomValidity("");
+		        }
+		        this.oldValue = this.value;
+		        this.oldSelectionStart = this.selectionStart;
+		        this.oldSelectionEnd = this.selectionEnd;
+		      } else if (this.hasOwnProperty("oldValue")) {
+		        // Rejected value - restore the previous one
+		        this.classList.add("input-error");
+		        this.setCustomValidity(errMsg);
+		        this.reportValidity();
+		        this.value = this.oldValue;
+		        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+		      } else {
+		        // Rejected value - nothing to restore
+		        this.value = "";
+		      }
+		    });
+		  });
+		}
+	
+	
 	</script>
 </body>
 </html>
